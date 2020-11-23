@@ -9,8 +9,9 @@ Welcome to the documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
-
+   
+   test.md
+   API Reference <http://www.example.com/lib/ios/0.1.0/api/>
 
 Indices and tables
 ==================
