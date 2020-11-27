@@ -3,29 +3,20 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Continuous Improvement Project Documentation
+Microservices
 ==================================================
 
 .. toctree::
    :maxdepth: 2
-   :caption: Getting Started
    
-   md/community/about.md
+   reminder_service.md
 
 .. toctree::
    :maxdepth: 2
-   :caption: Community Guide
    
-   md/community/index
+   event_service.md
 
 .. toctree::
    :maxdepth: 2
-   :caption: Changelog
    
-   md/changelog/index
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Developer Guide
-
-   md/dev_guide/index
+   notification_service.md

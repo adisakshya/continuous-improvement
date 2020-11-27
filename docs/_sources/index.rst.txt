@@ -23,3 +23,9 @@ Continuous Improvement Project Documentation
    :caption: Changelog
    
    md/changelog/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Developer Guide
+
+   md/dev_guide/index
