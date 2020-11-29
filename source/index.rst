@@ -14,7 +14,6 @@ Continuous Improvement Project Documentation
 
 .. toctree::
    :maxdepth: 2
-   :caption: Community Guide
    
    md/community/index
 

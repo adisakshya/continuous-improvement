@@ -3,6 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+Community Guide
 ==================================================
 
 Please note that this project is released with a [Code of Conduct](https://github.com/adisakshya/playground/blob/master/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
