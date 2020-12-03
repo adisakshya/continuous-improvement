@@ -23,3 +23,4 @@ Continuous Improvement Project Documentation
 
    md/dev_guide/microservices_documentation/microservices
    md/dev_guide/changelog/changelog
+   md/dev_guide/ci_cd/ci_cd
