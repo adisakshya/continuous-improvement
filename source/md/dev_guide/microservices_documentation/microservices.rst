@@ -15,3 +15,8 @@ Microservices Documentation
    :maxdepth: 2
    
    notification_service.md
+
+.. toctree::
+   :maxdepth: 2
+   
+   notification_scheduler.md
