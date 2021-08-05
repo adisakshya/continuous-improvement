@@ -1,0 +1,9 @@
+# Interaction with external services
+
+<< What all services have been used and why - LIST >>
+
+<< HOW WERE THEY CREATED - NEW AWS USER >>
+
+<< Production and deployment environment >>
+
+<< Environment Variables >>

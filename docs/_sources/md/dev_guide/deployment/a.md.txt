@@ -1,0 +1,74 @@
+
+## Deployment Environments
+
+The notification-delivery system is deployed on Kubernetes in multiple environments by the CI/CD pipeline. The table below describes a list of tiers:
+
+| Environment Name | Description |
+| ----------- | ----------- |
+| Local | Developer's desktop/workstation where changes are worked on and tried out |
+| Development (dev) | Development servers acting as a sandbox where unit testing may be performed by the developer. The environment may contain development tools, different or additional versions of libraries and support software, etc., which are not present in the production environment |
+| Staging | Mirror of production environment |
+| Production | The environment that users directly interact with |
+
+
+[All the microservices]() that constitute the notification-delivery system are deployed on Kubernetes and maintained on GitHub. These microservices run in 2 environments namely -
+1. Development (or dev) Environment
+2. Production Environment
+
+At the source code level these environments can be distinguished using Git branches. 
+The `development` branch features the source code for the Development Environment and the
+`production` branch features the source code for the Production Environment.
+
+.. image:: https://raw.githubusercontent.com/adisakshya/continuous-improvement/master/assets/architectures/deployment.png
+    :alt: Showing all branches in the Event Service git repository
+
+### Kubernetes Namespaces
+
+> Kubernetes supports multiple virtual clusters backed by the same physical cluster. These virtual clusters are called namespaces and provide logical separation between the teams and their environments.
+
+At the deployment level, that is on Kubernetes these environments are distinguished using namespaces.
+Both development and production environments have their own namespaces, which logically separates theses two environments and allows modification in one without affecting the other environment. 
+Using namespaces as environments makes it easier to manage workload for a project from a single Kubernetes cluster and this avoids the pain of maintaining multiple Kubernetes clusters for multiple environments.
+
+.. image:: https://raw.githubusercontent.com/adisakshya/continuous-improvement/master/assets/architectures/deployment.png
+    :alt: Kubernetes Dashboard showing production and development namespaces
+
+The `production` namespace wraps the production workload i.e., the source-code corresponding to the production-version/branch of each microservice is deployed in this namespace.
+The `development` namespace wraps the development workload i.e., the source-code corresponding to the development-version/branch of each microservice is deployed in this namespace.
+
+Each environment has a unique identifier prefix asssigned to it, for production environment it is `prod` and for development environment it is `dev`. The unique prefix is used while naming the deployments, replica-sets, pods and services in the environment.
+For example the [Notification Service]() is named as `prod-notification-service` and `dev-notification-service` when deployed to production environmentand development environment respectively.
+
+### Docker Images
+
+Each microservice is packaged as a [docker image]() which is used to deploy it to the Kubernetes Cluster.
+As mentioned earlier that each microservice runs in 2 environments namely `development` and `production` which are inturn two different namespaces in the Kubernetes Cluster, so each microservice has a docker image which has 2 tags - one that represents the production package and the seconds represents the development package.
+
+- Docker Image for Reminder Service - [adisakshya/reminder-service]()
+- Docker Image for Event Service - [adisakshya/event-service]()
+- Docker Image for Noification Service - [adisakshya/notification-service]()
+
+The [tags]() for the docker images are named following the format - `{ VERSION }-{ ENVIRONMENT_PREFIX }.
+For example the name of docker image corresponding to the [Event Service]() is `adisakshya/event-service` and it has the following tags -
+- 1.0.0-dev
+- 1.0.0-prod
+
+The production environment uses the docker-image tagged with `prod`, and the development environment uses the docker-image tagged with `dev`.
+
+## Configurations and Environment Variables
+
+### Kubernetes configuration store
+
+### Kubernetes secrets
+
+## Interaction with external services
+
+## Updating cluster via CI/CD
+
+Each environment has its own set of CI/CD pipeline stages. 
+Any commit/merge to the development-branch in any microservice repository will autmatically trigger a CI/CD pipeline, which will build the source code and update the docker image corresponding to the development version on DockerHub, likewise for any commits/merges on production-branch.
+Any update in development environment will be reflected only in the development namespace and any update in production development environment will be reflected only in the production namespace.
+Updates may include but not limited to the following -
+1. Scaling number of pods
+2. Updating deployment with newer version of docker image
+3. Updaing environment variables and secrets

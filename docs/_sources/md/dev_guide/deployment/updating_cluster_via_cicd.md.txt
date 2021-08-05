@@ -1,0 +1,13 @@
+# Updating cluster via CI/CD
+
+<< MOVE TO CI/CD SECTION >>
+
+Each environment has its own set of defiend CI/CD pipeline stages as defined in the [CI/CD Pipeline]() section.
+
+Any commit/merge to the development-branch in any microservice repository will automatically trigger a CI/CD pipeline, which will build the source code and update the docker image corresponding to the development version on DockerHub, likewise for any commits/merges on production-branch.
+
+Any update in development environment will be reflected only in the development namespace and any update in production development environment will be reflected only in the production namespace.
+Updates may include but not limited to the following -
+1. Scaling number of pods
+2. Updating deployment with newer version of docker image
+3. Updaing environment variables and secrets

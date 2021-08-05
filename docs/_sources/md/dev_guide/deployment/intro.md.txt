@@ -1,0 +1,12 @@
+# Deployment Environment
+
+The notification-delivery system is deployed on Kubernetes in multiple environments by the CI/CD pipeline. The table below describes a list of tiers:
+
+| Environment Name | Description |
+| ----------- | ----------- |
+| Local | Developer's desktop/workstation where changes are worked on and tried out |
+| Development (dev) | Development servers acting as a sandbox where unit testing may be performed by the developer. The environment may contain development tools, different or additional versions of libraries and support software, etc., which are not present in the production environment. |
+| Staging | Mirror of production environment |
+| Production | the environment that users directly interact with |
+
+

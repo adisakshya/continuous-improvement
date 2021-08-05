@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Deployment Architecture &mdash; Continuous Improvement 1.0.0 documentation</title>
+  <title>Docker Images &mdash; Continuous Improvement 1.0.0 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Deployment Environments" href="deployment_environments.html" />
-    <link rel="prev" title="CI/CD Pipeline" href="../ci_cd/ci_cd.html" /> 
+    <link rel="next" title="Configurations and Environment Variables" href="environment_variables_and_secrets.html" />
+    <link rel="prev" title="Kubernetes Namespaces" href="kubernetes_namespaces.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -94,11 +94,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../microservices_documentation/microservices.html">Microservices Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changelog/changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ci_cd/ci_cd.html">CI/CD Pipeline</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment Architecture</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="deployment.html">Deployment Architecture</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="deployment_environments.html">Deployment Environments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_namespaces.html">Kubernetes Namespaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="docker_images.html">Docker Images</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Docker Images</a></li>
 <li class="toctree-l2"><a class="reference internal" href="environment_variables_and_secrets.html">Configurations and Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interacting_with_external_services.html">Interaction with external services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="updating_cluster_via_cicd.html">Updating cluster via CI/CD</a></li>
 </ul>
 </li>
 </ul>
@@ -147,13 +149,15 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Deployment Architecture</li>
+          <li><a href="deployment.html">Deployment Architecture</a> &raquo;</li>
+        
+      <li>Docker Images</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../../_sources/md/dev_guide/deployment/deployment.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../../_sources/md/dev_guide/deployment/docker_images.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -166,29 +170,23 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="deployment-architecture">
-<h1>Deployment Architecture<a class="headerlink" href="#deployment-architecture" title="Permalink to this headline">¶</a></h1>
-<img alt="Deployment Architecture" src="https://raw.githubusercontent.com/adisakshya/continuous-improvement/master/assets/architectures/deployment.png" />
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="deployment_environments.html">Deployment Environments</a></li>
+  <div class="section" id="docker-images">
+<h1>Docker Images<a class="headerlink" href="#docker-images" title="Permalink to this headline">¶</a></h1>
+<p>To deploy any application to Kubernetes it is needed to be wraped as a container, this can be done by building docker-images.
+Each microservice is packaged as a docker image stored in a image repository provided by <a class="reference external" href="https://hub.docker.com/u/adisakshya">Dockerhub</a>.</p>
+<p>As each microservice runs in 2 environments namely <code class="docutils literal notranslate"><span class="pre">development</span></code> and <code class="docutils literal notranslate"><span class="pre">production</span></code> which are inturn two different namespaces in the Kubernetes Cluster, at the source code level - production and development branches are used to diffrentiate them. Each microservice is packed as a docker-image which has 2 tags - one that represents the production package and the second that represents the development package.</p>
+<ul class="simple">
+<li><p>Docker Image for Reminder Service - <a class="reference external" href="https://hub.docker.com/r/adisakshya/reminder-service">adisakshya/reminder-service</a></p></li>
+<li><p>Docker Image for Event Service - <a class="reference external" href="https://hub.docker.com/r/adisakshya/event-service">adisakshya/event-service</a></p></li>
+<li><p>Docker Image for Noification Service - <a class="reference external" href="https://hub.docker.com/r/adisakshya/notification-service">adisakshya/notification-service</a></p></li>
 </ul>
-</div>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="kubernetes_namespaces.html">Kubernetes Namespaces</a></li>
+<p>The tags for the docker images are named following the format - <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">VERSION</span> <span class="pre">}-{</span> <span class="pre">ENVIRONMENT_PREFIX</span> <span class="pre">}</span></code>. Here <code class="docutils literal notranslate"><span class="pre">VERSION</span></code> is the version of the microservice that has been packed in that docker-image and <code class="docutils literal notranslate"><span class="pre">ENVIRONMENT_PREFIX</span></code> is the short name for a deployment environment.
+For example the name of docker image corresponding to the <a class="reference external" href="https://hub.docker.com/r/adisakshya/event-service/tags?page=1&amp;ordering=last_updated">Event Service</a> is <code class="docutils literal notranslate"><span class="pre">adisakshya/event-service</span></code> and it has the following tags -</p>
+<ul class="simple">
+<li><p>1.0.0-dev</p></li>
+<li><p>1.0.0-prod</p></li>
 </ul>
-</div>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="docker_images.html">Docker Images</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="environment_variables_and_secrets.html">Configurations and Environment Variables</a></li>
-</ul>
-</div>
+<p>The production environment uses the docker-image tagged with <code class="docutils literal notranslate"><span class="pre">prod</span></code> and the development environment uses the docker-image tagged with <code class="docutils literal notranslate"><span class="pre">dev</span></code> i.e., in case of event-service <code class="docutils literal notranslate"><span class="pre">adisakshya/event-service:1.0.0-prod</span></code> will be the docker-image used for deploying the event-service to production environment and <code class="docutils literal notranslate"><span class="pre">adisakshya/event-service:1.0.0-dev</span></code> will be used to deploy it to the development environment.</p>
 </div>
 
 
@@ -199,10 +197,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="deployment_environments.html" class="btn btn-neutral float-right" title="Deployment Environments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="environment_variables_and_secrets.html" class="btn btn-neutral float-right" title="Configurations and Environment Variables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../ci_cd/ci_cd.html" class="btn btn-neutral float-left" title="CI/CD Pipeline" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="kubernetes_namespaces.html" class="btn btn-neutral float-left" title="Kubernetes Namespaces" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

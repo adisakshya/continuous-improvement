@@ -1,0 +1,284 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Deployment Environments &mdash; Continuous Improvement 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> Continuous Improvement
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../community/about.html">About</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../community/index.html">Community Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../microservices_documentation/microservices.html">Microservices Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ci_cd/ci_cd.html">CI/CD Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment Architecture</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Continuous Improvement</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Deployment Environments</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/md/dev_guide/deployment/deployment_environment.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="deployment-environments">
+<h1>Deployment Environments<a class="headerlink" href="#deployment-environments" title="Permalink to this headline">¶</a></h1>
+<p>The notification-delivery system is deployed on Kubernetes in multiple environments by the CI/CD pipeline. The table below describes a list of tiers:</p>
+<p>| Environment Name | Description |
+| ———– | ———– |
+| Local | Developer’s desktop/workstation where changes are worked on and tried out |
+| Development (dev) | Development servers acting as a sandbox where unit testing may be performed by the developer. The environment may contain development tools, different or additional versions of libraries and support software, etc., which are not present in the production environment |
+| Staging | Mirror of production environment |
+| Production | The environment that users directly interact with |</p>
+<p><a class="reference external" href="#">All the microservices</a> that constitute the notification-delivery system are deployed on Kubernetes and maintained on GitHub. These microservices run in 2 environments namely -</p>
+<ol class="simple">
+<li><p>Development (or dev) Environment</p></li>
+<li><p>Production Environment</p></li>
+</ol>
+<p>At the source code level these environments can be distinguished using Git branches.
+The <code class="docutils literal notranslate"><span class="pre">development</span></code> branch features the source code for the Development Environment and the
+<code class="docutils literal notranslate"><span class="pre">production</span></code> branch features the source code for the Production Environment.</p>
+<p>.. image:: https://raw.githubusercontent.com/adisakshya/continuous-improvement/master/assets/architectures/deployment.png
+:alt: Showing all branches in the Event Service git repository</p>
+<div class="section" id="kubernetes-namespaces">
+<h2>Kubernetes Namespaces<a class="headerlink" href="#kubernetes-namespaces" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Kubernetes supports multiple virtual clusters backed by the same physical cluster. These virtual clusters are called namespaces and provide logical separation between the teams and their environments.</p>
+</div></blockquote>
+<p>At the deployment level, that is on Kubernetes these environments are distinguished using namespaces.
+Both development and production environments have their own namespaces, which logically separates theses two environments and allows modification in one without affecting the other environment.
+Using namespaces as environments makes it easier to manage workload for a project from a single Kubernetes cluster and this avoids the pain of maintaining multiple Kubernetes clusters for multiple environments.</p>
+<p>.. image:: https://raw.githubusercontent.com/adisakshya/continuous-improvement/master/assets/architectures/deployment.png
+:alt: Kubernetes Dashboard showing production and development namespaces</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">production</span></code> namespace wraps the production workload i.e., the source-code corresponding to the production-version/branch of each microservice is deployed in this namespace.
+The <code class="docutils literal notranslate"><span class="pre">development</span></code> namespace wraps the development workload i.e., the source-code corresponding to the development-version/branch of each microservice is deployed in this namespace.</p>
+<p>Each environment has a unique identifier prefix asssigned to it, for production environment it is <code class="docutils literal notranslate"><span class="pre">prod</span></code> and for development environment it is <code class="docutils literal notranslate"><span class="pre">dev</span></code>. The unique prefix is used while naming the deployments, replica-sets, pods and services in the environment.
+For example the <a class="reference external" href="#">Notification Service</a> is named as <code class="docutils literal notranslate"><span class="pre">prod-notification-service</span></code> and <code class="docutils literal notranslate"><span class="pre">dev-notification-service</span></code> when deployed to production environmentand development environment respectively.</p>
+</div>
+<div class="section" id="docker-images">
+<h2>Docker Images<a class="headerlink" href="#docker-images" title="Permalink to this headline">¶</a></h2>
+<p>Each microservice is packaged as a <a class="reference external" href="#">docker image</a> which is used to deploy it to the Kubernetes Cluster.
+As mentioned earlier that each microservice runs in 2 environments namely <code class="docutils literal notranslate"><span class="pre">development</span></code> and <code class="docutils literal notranslate"><span class="pre">production</span></code> which are inturn two different namespaces in the Kubernetes Cluster, so each microservice has a docker image which has 2 tags - one that represents the production package and the seconds represents the development package.</p>
+<ul class="simple">
+<li><p>Docker Image for Reminder Service - <a class="reference external" href="#">adisakshya/reminder-service</a></p></li>
+<li><p>Docker Image for Event Service - <a class="reference external" href="#">adisakshya/event-service</a></p></li>
+<li><p>Docker Image for Noification Service - <a class="reference external" href="#">adisakshya/notification-service</a></p></li>
+</ul>
+<p>The <a class="reference external" href="#">tags</a> for the docker images are named following the format - <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">VERSION</span> <span class="pre">}-{</span> <span class="pre">ENVIRONMENT_PREFIX</span> <span class="pre">}.</span> <span class="pre">For</span> <span class="pre">example</span> <span class="pre">the</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">docker</span> <span class="pre">image</span> <span class="pre">corresponding</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">[Event</span> <span class="pre">Service]()</span> <span class="pre">is</span> </code>adisakshya/event-service` and it has the following tags -</p>
+<ul class="simple">
+<li><p>1.0.0-dev</p></li>
+<li><p>1.0.0-prod</p></li>
+</ul>
+<p>The production environment uses the docker-image tagged with <code class="docutils literal notranslate"><span class="pre">prod</span></code>, and the development environment uses the docker-image tagged with <code class="docutils literal notranslate"><span class="pre">dev</span></code>.</p>
+</div>
+<div class="section" id="configurations-and-environment-variables">
+<h2>Configurations and Environment Variables<a class="headerlink" href="#configurations-and-environment-variables" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="kubernetes-configuration-store">
+<h3>Kubernetes configuration store<a class="headerlink" href="#kubernetes-configuration-store" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="kubernetes-secrets">
+<h3>Kubernetes secrets<a class="headerlink" href="#kubernetes-secrets" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="interaction-with-external-services">
+<h2>Interaction with external services<a class="headerlink" href="#interaction-with-external-services" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="updating-cluster-via-ci-cd">
+<h2>Updating cluster via CI/CD<a class="headerlink" href="#updating-cluster-via-ci-cd" title="Permalink to this headline">¶</a></h2>
+<p>Each environment has its own set of CI/CD pipeline stages.
+Any commit/merge to the development-branch in any microservice repository will autmatically trigger a CI/CD pipeline, which will build the source code and update the docker image corresponding to the development version on DockerHub, likewise for any commits/merges on production-branch.
+Any update in development environment will be reflected only in the development namespace and any update in production development environment will be reflected only in the production namespace.
+Updates may include but not limited to the following -</p>
+<ol class="simple">
+<li><p>Scaling number of pods</p></li>
+<li><p>Updating deployment with newer version of docker image</p></li>
+<li><p>Updaing environment variables and secrets</p></li>
+</ol>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Adisakshya Chauhan
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Deployment Architecture" href="../deployment/deployment.html" />
-    <link rel="prev" title="Notification Service" href="../changelog/notification_service.html" /> 
+    <link rel="prev" title="Notification Scheduler" href="../changelog/notification_scheduler.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -162,7 +162,28 @@
             
   <div class="section" id="ci-cd-pipeline">
 <h1>CI/CD Pipeline<a class="headerlink" href="#ci-cd-pipeline" title="Permalink to this headline">¶</a></h1>
-<img alt="CI/CD Pipeline" src="https://raw.githubusercontent.com/adisakshya/continuous-improvement/master/assets/architectures/ci-cd-pipeline.png" />
+<p><strong>What is CI-CD?</strong></p>
+<p>Continuous Integration (CI) and Continuous Deployment/Delivery (CD) is a method to frequently deliver software to customers by introducing automation into the stages of software development.
+CI/CD introduces ongoing automation and continuous monitoring throughout the lifecycle of apps, from integration and testing phases to delivery and deployment.
+Taken together, these connected practices are often referred to as a “CI/CD pipeline” and are supported by development and operations teams working together.</p>
+<p>The goal of CI is to establish a consistent and automated method to build, package, and test software. CD picks up the CI artifacts and automate the delivery of application to a selected infrastructure environment.</p>
+<p><strong>How CI/CD has been used with microservices?</strong></p>
+<p>The Notification Delivery system runs in 2 environments namely -
+1. Development (or dev) Environment
+2. Production Environment</p>
+<p>At the source code level these environments can be distinguished using Git branches.
+Every microservice has 3 git branches namely development, production and master.</p>
+<p>For every commit corresponding to a major-minor update, bug-fix, improvements, patches is built, tested and deployed using a CI/CD pipeline powered by Travis CI.</p>
+<img alt="CI/CD Pipeline Architecture" src="https://raw.githubusercontent.com/adisakshya/continuous-improvement/master/assets/architectures/ci-cd-pipeline.png" />
+<img alt="Notification Service CI Pipeline on Travis CI" src="https://github.com/adisakshya/continuous-improvement/blob/master/assets/utils/notification-service-travis.png?raw=true" />
+<p>CI/CD stages are different for different branches and environments.
+Any commit/merge to the development-branch will build the source code and update the development docker-image on DockerHub, same applies for commits/merges on production-branch.</p>
+<p>Any update in development environment will be reflected only in the development namespace and any update in production development environment will be reflected only in the production namespace.
+Updates may include but not limited to the following -
+1. Scaling number of pods
+2. Updating deployment with newer version of docker image
+3. Updaing environment variables and secrets</p>
+<p>After the build is complete Ansible updates the Kubernetes deployments by telling it to pull the updated docker-images for the microservices from DockerHub and create/update various resources as defined in the configuration files.</p>
 </div>
 
 
@@ -176,7 +197,7 @@
         <a href="../deployment/deployment.html" class="btn btn-neutral float-right" title="Deployment Architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../changelog/notification_service.html" class="btn btn-neutral float-left" title="Notification Service" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../changelog/notification_scheduler.html" class="btn btn-neutral float-left" title="Notification Scheduler" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -186,7 +207,7 @@
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2020, Adisakshya Chauhan
+        &copy; Copyright 2021, Adisakshya Chauhan
 
     </p>
   </div>

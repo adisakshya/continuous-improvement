@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Microservices Documentation &mdash; Continuous Improvement 1.0.0 documentation</title>
+  <title>Updating cluster via CI/CD &mdash; Continuous Improvement 1.0.0 documentation</title>
   
 
   
@@ -36,8 +36,7 @@
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Reminder Service" href="reminder_service.html" />
-    <link rel="prev" title="Contributor Covenant Code of Conduct" href="../../community/code_of_conduct.html" /> 
+    <link rel="prev" title="Interaction with external services" href="interacting_with_external_services.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -91,16 +90,18 @@
 </ul>
 <p class="caption"><span class="caption-text">Developer Guide</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Microservices Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="reminder_service.html">Reminder Service</a></li>
-<li class="toctree-l2"><a class="reference internal" href="event_service.html">Event Service</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notification_service.html">Notification Service</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notification_scheduler.html">Notification Scheduler</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../microservices_documentation/microservices.html">Microservices Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changelog/changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ci_cd/ci_cd.html">CI/CD Pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../deployment/deployment.html">Deployment Architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="deployment.html">Deployment Architecture</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="deployment_environments.html">Deployment Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docker_images.html">Docker Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_namespaces.html">Kubernetes Namespaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment_variables_and_secrets.html">Configurations and Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interacting_with_external_services.html">Interaction with external services</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Updating cluster via CI/CD</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -147,13 +148,15 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Microservices Documentation</li>
+          <li><a href="deployment.html">Deployment Architecture</a> &raquo;</li>
+        
+      <li>Updating cluster via CI/CD</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../../_sources/md/dev_guide/microservices_documentation/microservices.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../../_sources/md/dev_guide/deployment/updating_cluster_via_cicd.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -166,28 +169,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="microservices-documentation">
-<h1>Microservices Documentation<a class="headerlink" href="#microservices-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="reminder_service.html">Reminder Service</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="event_service.html">Event Service</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="notification_service.html">Notification Service</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="notification_scheduler.html">Notification Scheduler</a></li>
-</ul>
-</div>
+  <div class="section" id="updating-cluster-via-ci-cd">
+<h1>Updating cluster via CI/CD<a class="headerlink" href="#updating-cluster-via-ci-cd" title="Permalink to this headline">¶</a></h1>
+<p>&lt;&lt; MOVE TO CI/CD SECTION &gt;&gt;</p>
+<p>Each environment has its own set of defiend CI/CD pipeline stages as defined in the <a class="reference external" href="#">CI/CD Pipeline</a> section.</p>
+<p>Any commit/merge to the development-branch in any microservice repository will automatically trigger a CI/CD pipeline, which will build the source code and update the docker image corresponding to the development version on DockerHub, likewise for any commits/merges on production-branch.</p>
+<p>Any update in development environment will be reflected only in the development namespace and any update in production development environment will be reflected only in the production namespace.
+Updates may include but not limited to the following -</p>
+<ol class="simple">
+<li><p>Scaling number of pods</p></li>
+<li><p>Updating deployment with newer version of docker image</p></li>
+<li><p>Updaing environment variables and secrets</p></li>
+</ol>
 </div>
 
 
@@ -198,10 +191,8 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="reminder_service.html" class="btn btn-neutral float-right" title="Reminder Service" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="../../community/code_of_conduct.html" class="btn btn-neutral float-left" title="Contributor Covenant Code of Conduct" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="interacting_with_external_services.html" class="btn btn-neutral float-left" title="Interaction with external services" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
