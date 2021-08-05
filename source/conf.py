@@ -18,7 +18,7 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = 'Continuous Improvement'
-copyright = '2020, Adisakshya Chauhan'
+copyright = '2021, Adisakshya Chauhan'
 author = 'Adisakshya Chauhan'
 
 # The full version, including alpha/beta/rc tags
